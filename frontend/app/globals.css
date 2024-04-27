@@ -273,9 +273,9 @@ main .ls-wp-container {
     background: rgb(89, 191, 229, 0.2);
 }
 
-@font-face {
-    font-family: 'hmBD';
-    src: url('../styles/fonts/HARMONYOS_SANS_SC_BOLD.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-}
+/*@font-face {*/
+/*    font-family: 'hmBD';*/
+/*    src: url('../styles/fonts/HARMONYOS_SANS_SC_BOLD.ttf') format('truetype');*/
+/*    font-weight: 400;*/
+/*    font-style: normal;*/
+/*}*/
