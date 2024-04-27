@@ -1,0 +1,144 @@
+fragment Posts on RootQueryToPostConnection {
+    nodes {
+        date
+        content(format: RENDERED)
+        id
+        link
+        slug
+        title(format: RENDERED)
+        status
+    }
+}
+
+fragment MenuItemContent on MenuItem {
+    id
+    uri
+    title
+    label
+    cssClasses
+}
+
+fragment MenuItemRecursive on MenuItem {
+    ...MenuItemContent
+    childItems {
+        nodes {
+            ...MenuItemContent
+        }
+    }
+}
+
+fragment MenuContent on Menu {
+    id
+    name
+    locations
+    slug
+    menuItems(first: 20, where: {parentId: 0}) {
+        nodes {
+            ...MenuItemRecursive
+        }
+    }
+}
+
+query GetTopNav {
+    menu(id: "primary", idType: LOCATION) {
+        ...MenuContent
+    }
+}
+
+query getPostsByCategoryName($name: String, $limit: String = "4") {
+    posts(before: $limit, where: {categoryName: $name}) {
+        ...Posts
+    }
+}
+
+query PreviewPost($id: ID!, $idType: PostIdType!) {
+    post(id: $id, idType: $idType) {
+        databaseId
+        slug
+        status
+    }
+}
+
+
+query AllPosts {
+    posts(first: 20, where: { orderby: { field: DATE, order: DESC } }) {
+        edges {
+            node {
+                title
+                excerpt
+                slug
+                date
+                featuredImage {
+                    node {
+                        sourceUrl
+                    }
+                }
+                author {
+                    node {
+                        name
+                        firstName
+                        lastName
+                        avatar {
+                            url
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+query GetHomePage($uri: String) {
+    pageBy(uri: $uri) {
+        id
+        title(format: RENDERED)
+        content
+        isFrontPage
+    }
+}
+
+query GetAppMenu($id: ID!) {
+    menu(id: $id, idType: SLUG) {
+        ...MenuContent
+    }
+}
+
+query GetPostBySlug($slug: ID!) {
+  post(id: $slug, idType: SLUG) {
+    id
+    date
+    content(format: RENDERED)
+    excerpt(format: RENDERED)
+    slug
+    uri
+    title(format: RENDERED)
+  }
+}
+
+query GetPostsBy($where: RootQueryToPostConnectionWhereArgs, $limit: Int = 3) {
+  posts(
+    first: $limit
+    where: $where
+  ) {
+    edges {
+      node {
+        id
+        date
+        ename {
+          ename
+        }
+        title(format: RENDERED)
+        excerpt
+         featuredImage {
+          node {
+            altText
+            mediaItemUrl
+            sourceUrl(size: LARGE)
+            uri
+          }
+        }
+        content
+      }
+    }
+  }
+}

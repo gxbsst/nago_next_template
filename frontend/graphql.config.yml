@@ -1,0 +1,8 @@
+schema: ./graphql/wordpress.graphql
+documents: ./path/to/your/graphql/documents/**/*.graphql
+extensions:
+  endpoints:
+    default:
+      url: 'http://store.home/wp/graphql'
+      headers:
+        Authorization: 'Bearer your-auth-token'
